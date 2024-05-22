@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - CTWCodex</title>
+        {% else %}
+        <title>CTWCodex</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            CTWStats
+            <a href="{{ url_for('home') }}">Home</a>
+        </div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

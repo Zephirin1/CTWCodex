@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ displayName }}'s CTW Stats</h1>
+    <table border="1">
+        <tr>
+            <td>Wins: {{ wins }}</td>
+            <td>Losses: {{ losses }}</td>
+            <td>WLR: {{ winRatio }}</td>
+            <td>Winrate: {{ winPercent }}%</td>
+        </tr>
+        <tr>
+            <td>Caps: {{ caps }}</td>
+            <td>Wools Stolen: {{ woolsStolen }}</td>
+            <td>Cap Success Rate: {{ capSuccessRate }}%</td>
+            <td>Cap/Death Ratio: {{ capDeathRatio }}</td>
+            <td>Average Caps Per Game: {{ capsPerGame }}</td>
+        </tr>
+        <tr>
+            <td>Kills: {{ kills }}</td>
+            <td>Deaths: {{ deaths }}</td>
+            <td>Assists: {{ assists }}</td>
+            <td>KDR: {{ kdr }}</td>
+            <td>Average Kills Per Game: {{ killsPerGame }}</td>
+        </tr>
+        <tr>
+            <td>Kills Against Woolholder: {{ huntingKills }}</td>
+            <td>Deaths to Woolholder: {{ huntingDeaths }}</td>
+            <td>KDR Against Woolholder: {{ huntingKDR }}</td>
+            <td>Average Kills on Woolholder Per Game: {{ huntingKillsPerGame }}</td>
+        </tr>
+        <tr>
+            <td>Kills as Woolholder: {{ woolholderKills }}</td>
+            <td>Deaths as Woolholder: {{ woolholderDeaths }}</td>
+            <td>KDR as Woolholder: {{ woolholderKDR }}</td>
+        </tr>
+        <tr>
+            <td>Fastest Cap Time: {{ capPR }} seconds</td>
+            <td>Fastest Win Time: {{ winPR }} seconds</td>
+            <td>Draws: {{ draws }}</td>
+        </tr>
+    </table>
+
+    <table border="1">
+        <tr>
+            <td><image src="/static/{{ hotbarImageList[0] }}" alt="{{ hotbarAltTextList[0] }}"></td>
+            <td><image src="/static/{{ hotbarImageList[1] }}" alt="{{ hotbarAltTextList[1] }}"></td>
+            <td><image src="/static/{{ hotbarImageList[2] }}" alt="{{ hotbarAltTextList[2] }}"></td>
+            <td><image src="/static/{{ hotbarImageList[3] }}" alt="{{ hotbarAltTextList[3] }}"></td>
+            <td><image src="/static/{{ hotbarImageList[4] }}" alt="{{ hotbarAltTextList[4] }}"></td>
+            <td><image src="/static/{{ hotbarImageList[5] }}" alt="{{ hotbarAltTextList[5] }}"></td>
+            <td><image src="/static/{{ hotbarImageList[6] }}" alt="{{ hotbarAltTextList[6] }}"></td>
+            <td><image src="/static/{{ hotbarImageList[7] }}" alt="{{ hotbarAltTextList[7] }}"></td>
+            <td><image src="/static/{{ hotbarImageList[8] }}" alt="{{ hotbarAltTextList[8] }}"></td>
+        </tr>
+    </table>
+{% endblock %}
