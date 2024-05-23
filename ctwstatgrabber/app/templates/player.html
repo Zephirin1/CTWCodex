@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <h1>{{ displayName }}'s CTW Stats</h1>
     <table border="1">
         <tr>
@@ -40,7 +43,7 @@
             <td>Draws: {{ draws }}</td>
         </tr>
     </table>
-
+    <br>
     <table border="1">
         <tr>
             <td><image src="/static/{{ hotbarImageList[0] }}" alt="{{ hotbarAltTextList[0] }}"></td>
@@ -54,4 +57,35 @@
             <td><image src="/static/{{ hotbarImageList[8] }}" alt="{{ hotbarAltTextList[8] }}"></td>
         </tr>
     </table>
+    <br>
+
+    
+
+    <canvas id="radarChart" width="400" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById("radarChart");
+        var radarChart = new Chart(ctx, {
+            type: "radar",
+            data: {
+                labels: {{ labels | safe }}, 
+                datasets: [
+                    {
+                        label: "Performance", 
+                        data: {{ values | safe }}, 
+                        fill: true, 
+                        borderColor: "rgb(75, 75, 192)"
+                    }
+                ]
+            },
+            options: {
+                responsive: false, 
+                scales: {
+                    r: {
+                        min: 0, 
+                        max: 1
+                    }
+                }
+            }
+        });
+    </script>
 {% endblock %}

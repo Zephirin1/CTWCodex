@@ -100,6 +100,16 @@ def player(playerName):
                 hotbarAltTextList.append(altTextList[inventoryList[i]])
                 i = i + 1
 
+            #Making values to be used in player radar chart
+            playerWinIndex = winRateInt
+            playerKillIndex = data["woolhunt_kills"] / (data["woolhunt_kills"] + data["woolhunt_deaths"])
+            playerHuntingIndex = data["woolhunt_kills_on_woolholder"] / (data["woolhunt_kills_on_woolholder"] + data["woolhunt_deaths_to_woolholder"])
+            playerCapIndex = data["woolhunt_wools_captured"] / data["woolhunt_wools_stolen"]
+
+            radarLabels = ["Winrate", "Capping", "Killing Woolholders", "Killing"]
+            radarValues = [playerWinIndex, playerCapIndex, playerHuntingIndex, playerKillIndex]
+
+
             #deal with entering all this information into the database
             player = db.session.scalar(sa.select(Player).where(Player.uuid == uuid))
             if player is not None:
@@ -175,7 +185,8 @@ def player(playerName):
                                 huntingKDR=huntingKDR, huntingKills=huntingKills, huntingDeaths=huntingDeaths, huntingKillsPerGame=huntingKillsPerGame, 
                                 woolholderKDR=woolholderKDR, woolholderKills=woolholderKills, woolholderDeaths=woolholderDeaths,
                                 capPR=capPR, winPR=winPR, draws=draws,
-                                hotbarImageList=hotbarImageList, hotbarAltTextList=hotbarAltTextList)
+                                hotbarImageList=hotbarImageList, hotbarAltTextList=hotbarAltTextList,
+                                labels=radarLabels, values=radarValues)
             
         except:
             player = db.session.scalar(sa.select(Player).where(Player.playerName == name.lower()))
