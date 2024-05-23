@@ -13,6 +13,12 @@ def getInfo(call):
     r = requests.get(call)
     return r.json()
 
+def checkDataExists(dataPoint, data):
+    if dataPoint in data:
+        return data[dataPoint]
+    else:
+        return 0
+
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
@@ -26,85 +32,122 @@ def home():
 def player(playerName):
     try:
         try:
-            API_KEY = "293d3258-0e8c-432a-b9c0-e86efb9f8e3e"
+            API_KEY = "fb7ef87c-3950-4856-b8b3-610588c95cfd"
             name = playerName
 
             name_link = f"https://api.hypixel.net/player?key={API_KEY}&name={name}"
 
             x = getInfo(name_link)
 
-            uuid = str(x["player"]["uuid"])
+            uuid = str(x["player"]["uuid"]) 
             displayName = str(x["player"]["displayname"])
-            data = x["player"]["stats"]["Arcade"]
+            data = x["player"]["stats"]["Arcade"] or x
 
             #skywarsWins = str(data["player"]["stats"]["SkyWars"]["wins"])  <-- example to get specific data from json
 
             #win/loss data
-            winRateInt = data["woolhunt_participated_wins"] / (data["woolhunt_participated_wins"] + data["woolhunt_participated_losses"])
+            if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
+                winRateInt = checkDataExists("woolhunt_participated_wins", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data))
+            else:
+                 winRateInt = 0
             winPercent = str(round(winRateInt * 100, 2))
-            winRatio = str(round(data["woolhunt_participated_wins"] / data["woolhunt_participated_losses"], 2))
-            wins = str(data["woolhunt_participated_wins"])
-            losses = str(data["woolhunt_participated_losses"])
+            if checkDataExists("woolhunt_participated_losses", data) != 0:
+                winRatio = str(round(checkDataExists("woolhunt_participated_wins", data) / checkDataExists("woolhunt_participated_losses", data), 2))
+            else:
+                 winRatio = str(checkDataExists("woolhunt_participated_wins", data))
+            wins = str(checkDataExists("woolhunt_participated_wins", data))
+            losses = str(checkDataExists("woolhunt_participated_losses", data))
 
             #cap data
-            capDeathRatio = str(round(data["woolhunt_wools_captured"] / data["woolhunt_deaths"], 2))
-            caps = str(data["woolhunt_wools_captured"])
-            woolsStolen = str(data["woolhunt_wools_stolen"])
-            capSuccessRate = str(round((data["woolhunt_wools_captured"] / data["woolhunt_wools_stolen"]) * 100, 2))
-            capsPerGame = str(round(data["woolhunt_wools_captured"] / (data["woolhunt_participated_wins"] + data["woolhunt_participated_losses"]), 2))
+            caps = str(checkDataExists("woolhunt_wools_captured", data))
+            if checkDataExists("woolhunt_deaths", data) != 0:
+                capDeathRatio = str(round(checkDataExists("woolhunt_wools_captured", data) / checkDataExists("woolhunt_deaths", data), 2))
+            else:
+                 capDeathRatio = str(checkDataExists("woolhunt_wools_captured", data))
+            woolsStolen = str(checkDataExists("woolhunt_wools_stolen", data))
+            if checkDataExists("woolhunt_wools_stolen", data) != 0:
+                capSuccessRate = str(round((checkDataExists("woolhunt_wools_captured", data) / checkDataExists("woolhunt_wools_stolen", data)) * 100, 2))
+            else:
+                capSuccessRate = "0"
+            if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
+                capsPerGame = str(round(checkDataExists("woolhunt_wools_captured", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data)), 2))
+            else:
+                 capsPerGame = str(checkDataExists("woolhunt_wools_captured", data))
 
             #general kill/death data
-            kdr = str(round(data["woolhunt_kills"] / data["woolhunt_deaths"], 2))
-            kills = str(data["woolhunt_kills"])
-            deaths = str(data["woolhunt_deaths"])
-            assists = str(data["woolhunt_assists"])
-            killsPerGame = str(round(data["woolhunt_kills"] / (data["woolhunt_participated_wins"] + data["woolhunt_participated_losses"]), 2))
+            if checkDataExists("woolhunt_deaths", data) != 0:
+                kdr = str(round(checkDataExists("woolhunt_kills", data) / checkDataExists("woolhunt_deaths", data), 2))
+            else:
+                kdr = str(checkDataExists("woolhunt_kills", data))
+            kills = str(checkDataExists("woolhunt_kills", data))
+            deaths = str(checkDataExists("woolhunt_deaths", data))
+            assists = str(checkDataExists("woolhunt_assists", data))
+            if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
+                killsPerGame = str(round(checkDataExists("woolhunt_kills", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data)), 2))
+            else:
+                killsPerGame = str(checkDataExists("woolhunt_kills", data))
 
             #kill/death data against woolholder
-            huntingKDR = str(round(data["woolhunt_kills_on_woolholder"] / data["woolhunt_deaths_to_woolholder"], 2))
-            huntingKills = str(data["woolhunt_kills_on_woolholder"])
-            huntingDeaths = str(data["woolhunt_deaths_to_woolholder"])
-            huntingKillsPerGame = str(round(data["woolhunt_kills_on_woolholder"] / (data["woolhunt_participated_wins"] + data["woolhunt_participated_losses"]), 2))
+            if checkDataExists("woolhunt_deaths_to_woolholder", data) != 0:
+                huntingKDR = str(round(checkDataExists("woolhunt_kills_on_woolholder", data) / checkDataExists("woolhunt_deaths_to_woolholder", data), 2))
+            else:
+                huntingKDR = str(checkDataExists("woolhunt_kills_on_woolholder", data))
+            huntingKills = str(checkDataExists("woolhunt_kills_on_woolholder", data))
+            huntingDeaths = str(checkDataExists("woolhunt_deaths_to_woolholder", data))
+            if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
+                huntingKillsPerGame = str(round(checkDataExists("woolhunt_kills_on_woolholder", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data)), 2))
+            else:
+                huntingKillsPerGame = str(checkDataExists("woolhunt_kills_on_woolholder", data))
 
             #kill/death data as woolholder
-            woolholderKDR = str(round(data["woolhunt_kills_with_wool"] / data["woolhunt_deaths_with_wool"], 2))
-            woolholderKills = str(data["woolhunt_kills_with_wool"])
-            woolholderDeaths = str(data["woolhunt_deaths_with_wool"])
+            if checkDataExists("woolhunt_deaths_with_wool", data) != 0:
+                woolholderKDR = str(round(checkDataExists("woolhunt_kills_with_wool", data) / checkDataExists("woolhunt_deaths_with_wool", data), 2))
+            else:
+                woolholderKDR = str(checkDataExists("woolhunt_kills_with_wool", data))
+            woolholderKills = str(checkDataExists("woolhunt_kills_with_wool", data))
+            woolholderDeaths = str(checkDataExists("woolhunt_deaths_with_wool", data))
 
             #miscellaneous data
-            capPR = str(data["woolhunt_fastest_wool_capture"])
-            try:
-                draws = str(data["woolhunt_participated_draws"])
-            except:
-                draws = str(0)
-            winPR = str(data["woolhunt_fastest_win"])
+            capPR = str(checkDataExists("woolhunt_fastest_wool_capture", data))
+            draws = str(checkDataExists("woolhunt_participated_draws", data))
+            winPR = str(checkDataExists("woolhunt_fastest_win", data))
 
             #inventory layout data
-            layoutData = data["woolhunt_inventorylayout"]
-            layoutDataKeys = list(layoutData.keys())
-            layoutDataValues = list(layoutData.values())
+            layoutData = checkDataExists("woolhunt_inventorylayout", data)
+            if layoutData != 0:
+                layoutDataKeys = list(layoutData.keys())
+                layoutDataValues = list(layoutData.values())
+            else:
+                layoutDataKeys = 0
+                layoutDataValues = 0
             inventoryList = [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
             imageList = ['images/Stone_Sword.png', 'images/Iron_Pickaxe_JE3_BE2.png', 'images/Bow_JE2_BE1.png', 'images/Iron_Axe_JE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Golden_Apple_JE1_BE1.png', 'images/Arrow.png', 'images/Empty.png']
             altTextList = ["Sword", "Pickaxe", "Bow", "Axe", "Planks", "Planks", "Planks", "Golden Apple", "Arrows", "Empty"]
 
-            count = 0
-            for key in layoutDataKeys:
-                inventoryList[int(key)] = layoutDataValues[count]
-                count = count + 1
+            if layoutDataKeys != 0:
+                count = 0
+                for key in layoutDataKeys:
+                    inventoryList[int(key)] = layoutDataValues[count]
+                    count = count + 1
 
-            hotbarImageList = []
-            hotbarAltTextList = []
-            i = 0
-            while i < 9:
-                hotbarImageList.append(imageList[inventoryList[i]])
-                hotbarAltTextList.append(altTextList[inventoryList[i]])
-                i = i + 1
+
+            if layoutData != 0:
+                hotbarImageList = []
+                hotbarAltTextList = []
+                i = 0
+                while i < 9:
+                    hotbarImageList.append(imageList[inventoryList[i]])
+                    hotbarAltTextList.append(altTextList[inventoryList[i]])
+                    i = i + 1
+            else:
+                hotbarImageList = ['images/Stone_Sword.png', 'images/Iron_Pickaxe_JE3_BE2.png', 'images/Bow_JE2_BE1.png', 'images/Iron_Axe_JE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Golden_Apple_JE1_BE1.png', 'images/Arrow.png']
+                hotbarAltTextList = ["Sword", "Pickaxe", "Bow", "Axe", "Planks", "Planks", "Planks", "Golden Apple", "Arrows"]
 
             #Making values to be used in player radar chart
             playerWinIndex = winRateInt
-            playerKillIndex = data["woolhunt_kills"] / (data["woolhunt_kills"] + data["woolhunt_deaths"])
-            playerHuntingIndex = data["woolhunt_kills_on_woolholder"] / (data["woolhunt_kills_on_woolholder"] + data["woolhunt_deaths_to_woolholder"])
-            playerCapIndex = data["woolhunt_wools_captured"] / data["woolhunt_wools_stolen"]
+            playerKillIndex = int(kills) / (int(kills) + int(deaths) + 1)
+            playerHuntingIndex = int(huntingKills) / (int(huntingKills) + int(huntingDeaths) + 1)
+            playerCapIndex = (int(caps) / (int(woolsStolen) + 1)) * 1.6
 
             radarLabels = ["Winrate", "Capping", "Killing Woolholders", "Killing"]
             radarValues = [playerWinIndex, playerCapIndex, playerHuntingIndex, playerKillIndex]
@@ -226,7 +269,13 @@ def player(playerName):
             hotbarImageList = [player.hotbarImage1, player.hotbarImage2, player.hotbarImage3, player.hotbarImage4, player.hotbarImage5, player.hotbarImage6, player.hotbarImage7, player.hotbarImage8, player.hotbarImage9]
             hotbarAltTextList = [player.hotbarAlt1, player.hotbarAlt2, player.hotbarAlt3, player.hotbarAlt4, player.hotbarAlt5, player.hotbarAlt6, player.hotbarAlt7, player.hotbarAlt8, player.hotbarAlt9]
             
-            
+            playerWinIndex = int(wins) / (int(wins) + int(losses) + 1)
+            playerKillIndex = int(kills) / (int(kills) + int(deaths) + 1)
+            playerHuntingIndex = int(huntingKills) / (int(huntingKills) + int(huntingDeaths) + 1)
+            playerCapIndex = (int(caps) / (int(woolsStolen) + 1)) * 1.6
+
+            radarLabels = ["Winrate", "Capping", "Killing Woolholders", "Killing"]
+            radarValues = [playerWinIndex, playerCapIndex, playerHuntingIndex, playerKillIndex]
             
             
             return render_template('player.html', displayName=displayName, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, 
@@ -235,7 +284,8 @@ def player(playerName):
                                 huntingKDR=huntingKDR, huntingKills=huntingKills, huntingDeaths=huntingDeaths, huntingKillsPerGame=huntingKillsPerGame, 
                                 woolholderKDR=woolholderKDR, woolholderKills=woolholderKills, woolholderDeaths=woolholderDeaths,
                                 capPR=capPR, winPR=winPR, draws=draws,
-                                hotbarImageList=hotbarImageList, hotbarAltTextList=hotbarAltTextList)
+                                hotbarImageList=hotbarImageList, hotbarAltTextList=hotbarAltTextList, 
+                                labels=radarLabels, values=radarValues)
     except:
         return render_template('apiError.html')
     
