@@ -4,7 +4,7 @@
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
-            {{ form.playerName.label }}<br>
+            {{ form.playerName.label }}:
             {{ form.playerName(size=32) }}
         </p>
         <p>{{ form.submit() }}</p>

@@ -10,6 +10,7 @@ class Player(db.Model):
     
     displayName: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
     pageTitle: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
+    
     winPercent: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
     winRatio: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)
     wins: so.Mapped[str] = so.mapped_column(sa.String(32), index=True)

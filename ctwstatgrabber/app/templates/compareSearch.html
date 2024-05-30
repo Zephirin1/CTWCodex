@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.playerName1.label }}:
+            {{ form.playerName1(size=32) }}
+        </p>
+        <p>
+            {{ form.playerName2.label }}:
+            {{ form.playerName2(size=32) }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

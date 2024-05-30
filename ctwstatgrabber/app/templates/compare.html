@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ displayName1 }} vs. {{ displayName2 }}</h1>
+
+    <table border="1">
+        <tr>
+            <td> </td>
+            <td>{{ displayName1 }}</td>
+            <td>{{ displayName2 }}</td>
+        </tr>
+        <tr>
+            <td>Win Ratio:</td>
+            <td>{{ p1WinRate }}</td>
+            <td>{{ p2WinRate }}</td>
+        </tr>
+    </table>
+
+{% endblock %}
