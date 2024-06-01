@@ -13,17 +13,25 @@ def getInfo(call):
     r = requests.get(call)
     return r.json()
 
+# get the json response for player information from the Hypixel API
 def autoGetInfo(API_KEY, name):
     call = f"https://api.hypixel.net/player?key={API_KEY}&name={name}"
     r = requests.get(call)
     return r.json()
 
+# check if data exists in a dataset, if it does then return it, if it doesn't then return 0
 def checkDataExists(dataPoint, data):
     if dataPoint in data:
         return data[dataPoint]
     else:
         return 0
     
+# returns the API key
+def getAPIKey():
+    API_KEY = "6864f2bf-f36d-499f-a554-9be6b0c0d2ab"
+    return API_KEY
+    
+# return a dictionary of relevant CTW stats from a section of the API response
 def getCTWData(data):
     dataDict = {
         "winrateInt": 0, 
@@ -63,8 +71,8 @@ def getCTWData(data):
 
     #win/loss data
     if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
-        dataDict["winRateInt"] = checkDataExists("woolhunt_participated_wins", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data))
-    dataDict["winPercent"] = round(dataDict["winRateInt"] * 100, 2)
+        dataDict["winrateInt"] = checkDataExists("woolhunt_participated_wins", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data))
+    dataDict["winPercent"] = round(dataDict["winrateInt"] * 100, 2)
     if checkDataExists("woolhunt_participated_losses", data) != 0:
         dataDict["winRatio"] = round(checkDataExists("woolhunt_participated_wins", data) / checkDataExists("woolhunt_participated_losses", data), 2)
     else:
@@ -154,6 +162,89 @@ def getCTWData(data):
     
     return dataDict
 
+
+# return a dictionary of relevant CTW stats from the specified player object in the database
+def getCTWDataFromDatabase(name):
+    dataDict = {
+        "displayName": "",
+
+        "winPercent": 0, 
+        "winRatio": 0, 
+        "wins": 0, 
+        "losses": 0, 
+
+        "caps": 0, 
+        "capDeathRatio": 0, 
+        "woolsStolen": 0, 
+        "capSuccessRate": 0, 
+        "capsPerGame": 0, 
+
+        "kdr": 0, 
+        "kills": 0, 
+        "deaths": 0, 
+        "assists": 0, 
+        "killsPerGame": 0, 
+
+        "huntingKDR": 0, 
+        "huntingKills": 0, 
+        "huntingDeaths": 0, 
+        "huntingKillsPerGame": 0, 
+
+        "woolholderKDR": 0, 
+        "woolholderKills": 0, 
+        "woolholderDeaths": 0, 
+
+        "capPR": 0, 
+        "draws": 0, 
+        "winPR": 0, 
+
+        "hotbarImageList": ['images/Stone_Sword.png', 'images/Iron_Pickaxe_JE3_BE2.png', 'images/Bow_JE2_BE1.png', 'images/Iron_Axe_JE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Oak_Planks_JE6_BE3.png', 'images/Golden_Apple_JE1_BE1.png', 'images/Arrow.png'], 
+        "hotbarAltTextList": ["Sword", "Pickaxe", "Bow", "Axe", "Planks", "Planks", "Planks", "Golden Apple", "Arrows", "Empty"]
+    }
+    
+    player = db.session.scalar(sa.select(Player).where(Player.playerName == name.lower()))
+
+    dataDict["displayName"] = player.displayName
+
+    dataDict["winPercent"] = player.winPercent
+    dataDict["winRatio"] = player.winRatio
+    dataDict["wins"] = player.wins
+    dataDict["losses"] = player.losses
+
+    dataDict["caps"] = player.caps
+    dataDict["capDeathRatio"] = player.capDeathRatio
+    dataDict["woolsStolen"] = player.woolsStolen
+    dataDict["capSuccessRate"] = player.capSuccessRate
+    dataDict["capsPerGame"] = player.capsPerGame
+
+    dataDict["kdr"] = player.kdr
+    dataDict["kills"] = player.kills
+    dataDict["deaths"] = player.deaths
+    dataDict["assists"] = player.assists
+    dataDict["killsPerGame"] = player.killsPerGame
+
+    dataDict["huntingKDR"] = player.huntingKDR
+    dataDict["huntingKills"] = player.huntingKills
+    dataDict["huntingDeaths"] = player.huntingDeaths
+    dataDict["huntingKillsPerGame"] = player.huntingKillsPerGame
+
+    dataDict["woolholderKDR"] = player.woolholderKDR
+    dataDict["woolholderKills"] = player.woolholderKills
+    dataDict["woolholderDeaths"] = player.woolholderDeaths
+
+    dataDict["capPR"] = player.capPR
+    dataDict["draws"] = player.draws
+    dataDict["winPR"] = player.winPR
+
+    dataDict["hotbarImageList"] = [player.hotbarImage1, player.hotbarImage2, player.hotbarImage3, player.hotbarImage4, player.hotbarImage5, player.hotbarImage6, player.hotbarImage7, player.hotbarImage8, player.hotbarImage9]
+    dataDict["hotbarAltTextList"] = [player.hotbarAlt1, player.hotbarAlt2, player.hotbarAlt3, player.hotbarAlt4, player.hotbarAlt5, player.hotbarAlt6, player.hotbarAlt7, player.hotbarAlt8, player.hotbarAlt9]
+    
+    return dataDict
+
+
+
+
+
 # Stores player data in the appropriate database object based on provided uuid, name data variables, and data dictionary
 def storeData(uuid, name, displayName, dataDict):
     player = db.session.scalar(sa.select(Player).where(Player.uuid == uuid))
@@ -226,12 +317,18 @@ def storeData(uuid, name, displayName, dataDict):
         db.session.add(newPlayer)
         db.session.commit()
 
+# generates data to be used for the player performance radar chart
+def makeChartData(dataDict):
+    winIndex = int(dataDict["wins"]) / (int((dataDict["wins"])) + int(dataDict["losses"]) + 1)
+    killIndex = int(dataDict["kills"]) / (int(dataDict["kills"]) + int(dataDict["deaths"]) + 1)
+    capIndex = (int(dataDict["caps"]) / (int(dataDict["woolsStolen"]) + 1)) * 1.6
+    huntingIndex = int(dataDict["huntingKills"]) / (int(dataDict["huntingKills"]) + int(dataDict["huntingDeaths"]) + 1)
 
-def getAPIKey():
-    API_KEY = "6864f2bf-f36d-499f-a554-9be6b0c0d2ab"
-    return API_KEY
+    return [winIndex, capIndex, huntingIndex, killIndex]
 
 
+
+# form page to search for a specific player's data
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     form = SearchForm()
@@ -240,7 +337,7 @@ def home():
     return render_template('playerSearch.html', form=form)
 
 
-# vvv making form page for player comparison vvv (similar to /home page)
+# form page for player comparison (similar to /home page)
 @app.route('/compare', methods=['GET', 'POST'])
 def compareSearch():
     form = CompareForm()
@@ -371,7 +468,7 @@ def player(playerName):
             playerHuntingIndex = int(huntingKills) / (int(huntingKills) + int(huntingDeaths) + 1)
             playerCapIndex = (int(caps) / (int(woolsStolen) + 1)) * 1.6
 
-            radarLabels = ["Winrate", "Capping", "Killing Woolholders", "Killing"]
+            radarLabels = ["Winrate", "Caps", "Woolholder Kills", "Kills"]
             radarValues = [playerWinIndex, playerCapIndex, playerHuntingIndex, playerKillIndex]
 
 
@@ -491,12 +588,13 @@ def player(playerName):
             hotbarImageList = [player.hotbarImage1, player.hotbarImage2, player.hotbarImage3, player.hotbarImage4, player.hotbarImage5, player.hotbarImage6, player.hotbarImage7, player.hotbarImage8, player.hotbarImage9]
             hotbarAltTextList = [player.hotbarAlt1, player.hotbarAlt2, player.hotbarAlt3, player.hotbarAlt4, player.hotbarAlt5, player.hotbarAlt6, player.hotbarAlt7, player.hotbarAlt8, player.hotbarAlt9]
             
+            # radar chart data
             playerWinIndex = int(wins) / (int(wins) + int(losses) + 1)
             playerKillIndex = int(kills) / (int(kills) + int(deaths) + 1)
             playerHuntingIndex = int(huntingKills) / (int(huntingKills) + int(huntingDeaths) + 1)
             playerCapIndex = (int(caps) / (int(woolsStolen) + 1)) * 1.6
 
-            radarLabels = ["Winrate", "Capping", "Killing Woolholders", "Killing"]
+            radarLabels = ["Winrate", "Caps", "Woolholder Kills", "Kills"]
             radarValues = [playerWinIndex, playerCapIndex, playerHuntingIndex, playerKillIndex]
             
             
@@ -509,7 +607,7 @@ def player(playerName):
                                 hotbarImageList=hotbarImageList, hotbarAltTextList=hotbarAltTextList, 
                                 labels=radarLabels, values=radarValues)
     except:
-        return render_template('apiError.html')
+        return render_template('retrieveError.html')
     
 
 
@@ -517,35 +615,55 @@ def player(playerName):
 @app.route('/compare/<playerName1>-<playerName2>')
 def compare(playerName1, playerName2):
     try:
-        API_KEY = getAPIKey()
-        name1 = playerName1
-        name2 = playerName2
+        try:
+            API_KEY = getAPIKey()
+            name1 = playerName1
+            name2 = playerName2
 
-        x = autoGetInfo(API_KEY, name1)
-        y = autoGetInfo(API_KEY, name2)
+            x = autoGetInfo(API_KEY, name1)
+            y = autoGetInfo(API_KEY, name2)
 
-        uuid1 = str(x["player"]["uuid"])
-        displayName1 = str(x["player"]["displayname"])
-        xData = x["player"]["stats"]["Arcade"]
-        
-        uuid2 = str(y["player"]["uuid"])
-        displayName2 = str(y["player"]["displayname"])
-        yData = y["player"]["stats"]["Arcade"]
+            uuid1 = str(x["player"]["uuid"])
+            displayName1 = str(x["player"]["displayname"])
+            xData = x["player"]["stats"]["Arcade"]
+            
+            uuid2 = str(y["player"]["uuid"])
+            displayName2 = str(y["player"]["displayname"])
+            yData = y["player"]["stats"]["Arcade"]
 
-        # CTW data for both players in dictionary form
-        xDataDict = getCTWData(xData)
-        yDataDict = getCTWData(yData)
+            # CTW data for both players in dictionary form
+            xDataDict = getCTWData(xData)
+            yDataDict = getCTWData(yData)
 
-        # Deal with putting this information into the database
-        storeData(uuid1, name1, displayName1, xDataDict)
-        storeData(uuid2, name2, displayName2, yDataDict)
+            # Deal with putting this information into the database
+            storeData(uuid1, name1, displayName1, xDataDict)
+            storeData(uuid2, name2, displayName2, yDataDict)
 
-        return render_template('compare.html', displayName1=displayName1, displayName2=displayName2, p1WinRate=xDataDict["winRatio"], p2WinRate=yDataDict["winRatio"])
+            # Make lists of data to be used in radar chart
+            radarLabels = ["Winrate", "Caps", "Woolholder Kills", "Kills"]
+            p1RadarData = makeChartData(xDataDict)
+            p2RadarData = makeChartData(yDataDict)
+
+            return render_template('compare.html', title="Compare", displayName1=displayName1, displayName2=displayName2, xDataDict=xDataDict, yDataDict=yDataDict, 
+                                   labels=radarLabels, p1Values=p1RadarData, p2Values=p2RadarData)
+        except:
+            
+            name1 = playerName1
+            name2 = playerName2
+
+
+            #get CTW data form both players in dictionary form FROM THE DATABASE
+            xDataDict = getCTWDataFromDatabase(name1)
+            yDataDict = getCTWDataFromDatabase(name2)
+
+            # Make lists of data to be used in radar chart
+            radarLabels = ["Winrate", "Caps", "Woolholder Kills", "Kills"]
+            p1RadarData = makeChartData(xDataDict)
+            p2RadarData = makeChartData(yDataDict)
+
+            return render_template('compare.html', title="Compare", displayName1=xDataDict["displayName"], displayName2=yDataDict["displayName"], xDataDict=xDataDict, yDataDict=yDataDict, 
+                                   labels=radarLabels, p1Values=p1RadarData, p2Values=p2RadarData)
     except:
-        
-        #get CTW data form both players in dictionary form FROM THE DATABASE
-
-        return render_template('apiError.html')
-
+        return render_template('retrieveError.html')
 
     
