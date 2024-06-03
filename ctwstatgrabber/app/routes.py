@@ -28,7 +28,7 @@ def checkDataExists(dataPoint, data):
     
 # returns the API key
 def getAPIKey():
-    API_KEY = "6864f2bf-f36d-499f-a554-9be6b0c0d2ab"
+    API_KEY = "78e5c9b1-9b38-415b-98b2-1dd590934cfd"
     return API_KEY
     
 # return a dictionary of relevant CTW stats from a section of the API response
@@ -645,7 +645,7 @@ def compare(playerName1, playerName2):
             p2RadarData = makeChartData(yDataDict)
 
             return render_template('compare.html', title="Compare", displayName1=displayName1, displayName2=displayName2, xDataDict=xDataDict, yDataDict=yDataDict, 
-                                   labels=radarLabels, p1Values=p1RadarData, p2Values=p2RadarData)
+                                   labels=radarLabels, p1Values=p1RadarData, p2Values=p2RadarData, p1Label=displayName1, p2Label=displayName2)
         except:
             
             name1 = playerName1
@@ -662,7 +662,7 @@ def compare(playerName1, playerName2):
             p2RadarData = makeChartData(yDataDict)
 
             return render_template('compare.html', title="Compare", displayName1=xDataDict["displayName"], displayName2=yDataDict["displayName"], xDataDict=xDataDict, yDataDict=yDataDict, 
-                                   labels=radarLabels, p1Values=p1RadarData, p2Values=p2RadarData)
+                                   labels=radarLabels, p1Values=p1RadarData, p2Values=p2RadarData, p1Label=str(xDataDict["displayName"]), p2Label=str(yDataDict["displayName"]))
     except:
         return render_template('retrieveError.html')
 

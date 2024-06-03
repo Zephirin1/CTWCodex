@@ -70,7 +70,7 @@
                 labels: {{ labels | safe }}, 
                 datasets: [
                     {
-                        label: "Performance", 
+                        label: "{{ displayName | safe }}", 
                         data: {{ values | safe }}, 
                         fill: true, 
                         backgroundColor: "rgba(75, 75, 192, 0.5)", 

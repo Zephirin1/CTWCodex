@@ -6,20 +6,20 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <canvas id="radarChart" width="400" height="400"></canvas>
-    <script>
+    <script>        
         var ctx = document.getElementById("radarChart");
         var radarChart = new Chart(ctx, {
             type: "radar",
             data: {
                 labels: {{ labels | safe }}, 
                 datasets: [{
-                        label: "Player 1", 
+                        label: "{{ p1Label | safe }}", 
                         data: {{ p1Values | safe }}, 
                         fill: true, 
                         backgroundColor: "rgba(75, 75, 192, 0.5)", 
                         borderColor: "rgb(75, 75, 192)"
                     }, {
-                        label: "Player 2", 
+                        label: "{{ p2Label | safe }}", 
                         data: {{ p2Values | safe }}, 
                         fill: true, 
                         backgroundColor: "rgba(192, 75, 75, 0.5)", 
