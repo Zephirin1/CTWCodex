@@ -28,7 +28,7 @@ def checkDataExists(dataPoint, data):
     
 # returns the API key
 def getAPIKey():
-    API_KEY = "78e5c9b1-9b38-415b-98b2-1dd590934cfd"
+    API_KEY = "b446d0d4-c982-4f49-942a-cf8acdd70ff0"
     return API_KEY
     
 # return a dictionary of relevant CTW stats from a section of the API response
@@ -541,7 +541,7 @@ def player(playerName):
                 db.session.add(newPlayer)
                 db.session.commit()
 
-            return render_template('player.html', displayName=displayName, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, 
+            return render_template('player.html', displayName=displayName, uuid=uuid, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, 
                                 capDeathRatio=capDeathRatio, caps=caps, woolsStolen=woolsStolen, capSuccessRate=capSuccessRate, capsPerGame=capsPerGame, 
                                 kdr=kdr, kills=kills, deaths=deaths, assists=assists, killsPerGame=killsPerGame, 
                                 huntingKDR=huntingKDR, huntingKills=huntingKills, huntingDeaths=huntingDeaths, huntingKillsPerGame=huntingKillsPerGame, 
@@ -554,6 +554,7 @@ def player(playerName):
             player = db.session.scalar(sa.select(Player).where(Player.playerName == name.lower()))
             
             displayName = player.displayName
+            uuid = player.uuid
 
             winPercent = player.winPercent
             winRatio = player.winRatio
@@ -598,7 +599,7 @@ def player(playerName):
             radarValues = [playerWinIndex, playerCapIndex, playerHuntingIndex, playerKillIndex]
             
             
-            return render_template('player.html', displayName=displayName, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, 
+            return render_template('player.html', displayName=displayName, uuid=uuid, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, 
                                 capDeathRatio=capDeathRatio, caps=caps, woolsStolen=woolsStolen, capSuccessRate=capSuccessRate, capsPerGame=capsPerGame, 
                                 kdr=kdr, kills=kills, deaths=deaths, assists=assists, killsPerGame=killsPerGame, 
                                 huntingKDR=huntingKDR, huntingKills=huntingKills, huntingDeaths=huntingDeaths, huntingKillsPerGame=huntingKillsPerGame, 

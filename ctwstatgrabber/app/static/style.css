@@ -1,0 +1,79 @@
+
+body {
+    background-color: #292929;
+    font-family: Arial, Helvetica, sans-serif;
+
+    margin: auto;
+}
+
+table {
+    color: gray;
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+
+h1 {
+    color: gray;
+}
+
+p {
+    color: gray;
+}
+
+ul {
+    list-style-type: none;
+    margin: auto;
+    width: 80%;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+    color: gray;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+li a:hover {
+    color: #202020;
+    background-color: gray;
+    animation-name: example;
+    animation-duration: 350ms;
+}
+
+@keyframes example {
+    from {color: gray; background-color: #202020;}
+    to {color: #202020; background-color: gray;}
+}
+
+.nav {
+    background-color: #202020;
+}
+
+.content {
+    width: 60%;
+    margin: auto;
+}
+
+input[type=text] {
+    width: 60%;
+    background-color: dimgray;
+    border: 2px solid #202020;
+    border-radius: 4px;
+}
+
+input[type=submit] {
+    background-color: dimgray;
+    border: 2px solid #202020;
+    border-radius: 4px;
+}
+
+form {
+    margin: auto;
+}

@@ -1,19 +1,33 @@
 <!doctype html>
-<html>
+<html lang="en">
     <head>
+        
         {% if title %}
         <title>{{ title }} - CTWCodex</title>
         {% else %}
         <title>CTWCodex</title>
         {% endif %}
+
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
     </head>
     <body>
-        <div>
-            CTWStats
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('compareSearch') }}">Compare</a>
+        
+        <div class="nav">
+            <ul>
+                <li><a href="{{ url_for('home') }}">CTWCodex</a></li>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('compareSearch') }}">Compare</a></li>
+            </ul>
         </div>
-        <hr>
-        {% block content %}{% endblock %}
+        
+        
+        
+        
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+
+        
     </body>
 </html>

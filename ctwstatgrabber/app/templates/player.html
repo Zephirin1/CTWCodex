@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <h1>{{ displayName }}'s CTW Stats</h1>
+
+    <img src="https://crafatar.com/avatars/{{ uuid }}?overlay=true">
+
     <table border="1">
         <tr>
             <td>Wins: {{ wins }}</td>
@@ -85,7 +88,7 @@
                         min: 0, 
                         max: 1, 
                         ticks: {
-                            count: 10
+                            count: 0
                         }
                     }
                 }
