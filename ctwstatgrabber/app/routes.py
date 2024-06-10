@@ -28,7 +28,7 @@ def checkDataExists(dataPoint, data):
     
 # returns the API key
 def getAPIKey():
-    API_KEY = "b446d0d4-c982-4f49-942a-cf8acdd70ff0"
+    API_KEY = "88148ea8-a2b6-4b7e-9590-7214cf7a8932"
     return API_KEY
     
 # return a dictionary of relevant CTW stats from a section of the API response
@@ -430,6 +430,7 @@ def player(playerName):
             capPR = str(checkDataExists("woolhunt_fastest_wool_capture", data))
             draws = str(checkDataExists("woolhunt_participated_draws", data))
             winPR = str(checkDataExists("woolhunt_fastest_win", data))
+            gamesPlayed = str(int(wins) + int(losses) + int(draws))
 
             #inventory layout data
             layoutData = checkDataExists("woolhunt_inventorylayout", data)
@@ -541,7 +542,7 @@ def player(playerName):
                 db.session.add(newPlayer)
                 db.session.commit()
 
-            return render_template('player.html', displayName=displayName, uuid=uuid, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, 
+            return render_template('player.html', displayName=displayName, uuid=uuid, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, gamesPlayed=gamesPlayed, 
                                 capDeathRatio=capDeathRatio, caps=caps, woolsStolen=woolsStolen, capSuccessRate=capSuccessRate, capsPerGame=capsPerGame, 
                                 kdr=kdr, kills=kills, deaths=deaths, assists=assists, killsPerGame=killsPerGame, 
                                 huntingKDR=huntingKDR, huntingKills=huntingKills, huntingDeaths=huntingDeaths, huntingKillsPerGame=huntingKillsPerGame, 
@@ -586,6 +587,8 @@ def player(playerName):
             winPR = player.winPR
             draws = player.draws
 
+            gamesPlayed = str(int(wins) + int(losses) + int(draws))
+
             hotbarImageList = [player.hotbarImage1, player.hotbarImage2, player.hotbarImage3, player.hotbarImage4, player.hotbarImage5, player.hotbarImage6, player.hotbarImage7, player.hotbarImage8, player.hotbarImage9]
             hotbarAltTextList = [player.hotbarAlt1, player.hotbarAlt2, player.hotbarAlt3, player.hotbarAlt4, player.hotbarAlt5, player.hotbarAlt6, player.hotbarAlt7, player.hotbarAlt8, player.hotbarAlt9]
             
@@ -599,7 +602,7 @@ def player(playerName):
             radarValues = [playerWinIndex, playerCapIndex, playerHuntingIndex, playerKillIndex]
             
             
-            return render_template('player.html', displayName=displayName, uuid=uuid, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, 
+            return render_template('player.html', displayName=displayName, uuid=uuid, title=displayName, winPercent=winPercent, winRatio=winRatio, wins=wins, losses=losses, gamesPlayed=gamesPlayed, 
                                 capDeathRatio=capDeathRatio, caps=caps, woolsStolen=woolsStolen, capSuccessRate=capSuccessRate, capsPerGame=capsPerGame, 
                                 kdr=kdr, kills=kills, deaths=deaths, assists=assists, killsPerGame=killsPerGame, 
                                 huntingKDR=huntingKDR, huntingKills=huntingKills, huntingDeaths=huntingDeaths, huntingKillsPerGame=huntingKillsPerGame, 

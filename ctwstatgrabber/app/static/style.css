@@ -2,18 +2,22 @@
 body {
     background-color: #292929;
     font-family: Arial, Helvetica, sans-serif;
-
     margin: auto;
 }
 
 table {
     color: gray;
-    border: 1px solid gray;
     border-collapse: collapse;
 }
 
 h1 {
     color: gray;
+}
+
+h3 {
+    color: gray;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 p {
@@ -76,4 +80,27 @@ input[type=submit] {
 
 form {
     margin: auto;
+}
+
+.card {
+    padding: 10px;
+}
+
+.card-head {
+    padding: 10px;
+    border: 2px solid #202020;
+    background-color: #262626;
+}
+
+.card-body {
+    padding: 10px;
+    border-left: 2px solid #202020;
+    border-bottom: 2px solid #202020;
+    border-right: 2px solid #202020;
+    background-color: #282828;
+}
+
+.card-table {
+    display: inline-block;
+    vertical-align: top;
 }

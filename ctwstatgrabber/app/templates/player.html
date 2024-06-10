@@ -4,67 +4,139 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <h1>{{ displayName }}'s CTW Stats</h1>
+    
 
-    <img src="https://crafatar.com/avatars/{{ uuid }}?overlay=true">
+    
+    <div style="width:50%;display:inline-block;vertical-align:top;padding:10px;">
+        <div class="card" style="width:100%;display:inline-block;vertical-align:top;">
+            <div class="card-head">
+                <h3 style="text-align:left;">{{ displayName }}</h3>
+            </div>
+            <div class="card-body">
+                <img src="https://crafatar.com/avatars/{{ uuid }}?overlay=true" style="width:100px;height:100px;display:inline-block;">
+                <table class="card-table" style="margin-left:10px;">
+                    <tr><td style="height:25px;vertical-align:middle;">{{ gamesPlayed }} matches</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ caps }} caps</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ kills }} kills</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ huntingKills }} kills on woolholder</td></tr>
+                </table>
+                
+                
+            </div>
+        </div>
 
-    <table border="1">
-        <tr>
-            <td>Wins: {{ wins }}</td>
-            <td>Losses: {{ losses }}</td>
-            <td>WLR: {{ winRatio }}</td>
-            <td>Winrate: {{ winPercent }}%</td>
-        </tr>
-        <tr>
-            <td>Caps: {{ caps }}</td>
-            <td>Wools Stolen: {{ woolsStolen }}</td>
-            <td>Cap Success Rate: {{ capSuccessRate }}%</td>
-            <td>Cap/Death Ratio: {{ capDeathRatio }}</td>
-            <td>Average Caps Per Game: {{ capsPerGame }}</td>
-        </tr>
-        <tr>
-            <td>Kills: {{ kills }}</td>
-            <td>Deaths: {{ deaths }}</td>
-            <td>Assists: {{ assists }}</td>
-            <td>KDR: {{ kdr }}</td>
-            <td>Average Kills Per Game: {{ killsPerGame }}</td>
-        </tr>
-        <tr>
-            <td>Kills Against Woolholder: {{ huntingKills }}</td>
-            <td>Deaths to Woolholder: {{ huntingDeaths }}</td>
-            <td>KDR Against Woolholder: {{ huntingKDR }}</td>
-            <td>Average Kills on Woolholder Per Game: {{ huntingKillsPerGame }}</td>
-        </tr>
-        <tr>
-            <td>Kills as Woolholder: {{ woolholderKills }}</td>
-            <td>Deaths as Woolholder: {{ woolholderDeaths }}</td>
-            <td>KDR as Woolholder: {{ woolholderKDR }}</td>
-        </tr>
-        <tr>
-            <td>Fastest Cap Time: {{ capPR }} seconds</td>
-            <td>Fastest Win Time: {{ winPR }} seconds</td>
-            <td>Draws: {{ draws }}</td>
-        </tr>
-    </table>
-    <br>
-    <table border="1">
-        <tr>
-            <td><image src="/static/{{ hotbarImageList[0] }}" alt="{{ hotbarAltTextList[0] }}"></td>
-            <td><image src="/static/{{ hotbarImageList[1] }}" alt="{{ hotbarAltTextList[1] }}"></td>
-            <td><image src="/static/{{ hotbarImageList[2] }}" alt="{{ hotbarAltTextList[2] }}"></td>
-            <td><image src="/static/{{ hotbarImageList[3] }}" alt="{{ hotbarAltTextList[3] }}"></td>
-            <td><image src="/static/{{ hotbarImageList[4] }}" alt="{{ hotbarAltTextList[4] }}"></td>
-            <td><image src="/static/{{ hotbarImageList[5] }}" alt="{{ hotbarAltTextList[5] }}"></td>
-            <td><image src="/static/{{ hotbarImageList[6] }}" alt="{{ hotbarAltTextList[6] }}"></td>
-            <td><image src="/static/{{ hotbarImageList[7] }}" alt="{{ hotbarAltTextList[7] }}"></td>
-            <td><image src="/static/{{ hotbarImageList[8] }}" alt="{{ hotbarAltTextList[8] }}"></td>
-        </tr>
-    </table>
-    <br>
+        <br>
+
+        <div class="card" style="width:100%;display:inline-block;vertical-align:top;">
+            <div class="card-head">
+                <h3>Performance Stats</h3>
+            </div>
+            <div class="card-body">
+                <table class="card-table">
+                    <tr><td>WLR: {{ winRatio }} / {{ winPercent }}% winrate</td></tr>
+                    <tr><td>KDR: {{ kdr }}</td></tr>
+                    <tr><td>Cap Success Rate: {{ capSuccessRate }}% | Cap/Death Ratio: {{ capDeathRatio }}</td></tr>
+                    <tr><td>KDR Against Woolholder: {{ huntingKDR }}</td></tr>
+                    <tr><td>KDR as Woolholder: {{ woolholderKDR }}</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" style="width:100%;display:inline-block;vertical-align:top;">
+            <div class="card-head">
+                <h3>Per-Game Stats</h3>
+            </div>
+            <div class="card-body">
+                <table class="card-table">
+                    <tr><td>Average Caps Per Game: {{ capsPerGame }}</td></tr>
+                    <tr><td>Average Kills Per Game: {{ killsPerGame }}</td></tr>
+                    <tr><td>Average Kills on Woolholder Per Game: {{ huntingKillsPerGame }}</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" style="width:100%;display:inline-block;vertical-align:top;">
+            <div class="card-head">
+                <h3>Time Stats</h3>
+            </div>
+            <div class="card-body">
+                <table class="card-table">
+                    <tr><td>Fastest Cap Time: {{ capPR }}s</td></tr>
+                    <tr><td>Fastest Win Time: {{ winPR }}s</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div style="width:46%;display:inline-block;vertical-align:top;padding:10px;">
+
+        <div class="card">
+            <div class="card-head">
+                <h3>Performance</h3>
+            </div>
+            <canvas id="radarChart" width="500" height="500" style="width:100%;display:inline;padding:10px;background-color:#282828;vertical-align:top;border-left: 2px solid #202020;border-bottom: 2px solid #202020;border-right: 2px solid #202020;"></canvas>
+        </div>
+        
+        <div class="card">
+            <div class="card-head">
+                <h3>Hotbar Layout</h3>
+            </div>
+            <div class="card-body">
+                <table border="1" style="margin:auto;">
+                    <tr>
+                        <td><image src="/static/{{ hotbarImageList[0] }}" alt="{{ hotbarAltTextList[0] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ hotbarImageList[1] }}" alt="{{ hotbarAltTextList[1] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ hotbarImageList[2] }}" alt="{{ hotbarAltTextList[2] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ hotbarImageList[3] }}" alt="{{ hotbarAltTextList[3] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ hotbarImageList[4] }}" alt="{{ hotbarAltTextList[4] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ hotbarImageList[5] }}" alt="{{ hotbarAltTextList[5] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ hotbarImageList[6] }}" alt="{{ hotbarAltTextList[6] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ hotbarImageList[7] }}" alt="{{ hotbarAltTextList[7] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ hotbarImageList[8] }}" alt="{{ hotbarAltTextList[8] }}" width="40" height="40"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+    
+    <div class="card" style="width:97%;margin:auto;">
+        <div class="card-head">
+            <h3 style="text-align:center;">Raw Stats</h3>
+        </div>
+        <div class="card-body">
+            <table class="card-table" style="width:19%;padding-left:10px;padding-right:10px;font-size:14px;">
+                <tr><td>Wins: {{ wins }}</td></tr>
+                <tr><td>Losses: {{ losses }}</td></tr>
+                <tr><td>Draws: {{ draws }}</td></tr>
+            </table>
+            <table class="card-table" style="width:19%;border-left: 2px solid #202020;padding-left:10px;padding-right:10px;font-size:14px;">
+                <tr><td>Kills: {{ kills }}</td></tr>
+                <tr><td>Deaths: {{ deaths }}</td></tr>
+                <tr><td>Assists: {{ assists }}</td></tr>
+            </table>
+            <table class="card-table" style="width:19%;border-left: 2px solid #202020;padding-left:10px;padding-right:10px;font-size:14px;">
+                <tr><td>Caps: {{ caps }}</td></tr>
+                <tr><td>Wools Stolen: {{ woolsStolen }}</td></tr>
+            </table>
+            <table class="card-table" style="width:19%;border-left: 2px solid #202020;padding-left:10px;padding-right:10px;font-size:14px;">
+                <tr><td>Kills on Woolholder: {{ huntingKills }}</td></tr>
+                <tr><td>Deaths to Woolholder: {{ huntingDeaths }}</td></tr>
+            </table>
+            <table class="card-table" style="width:19%;border-left: 2px solid #202020;padding-left:10px;padding-right:10px;font-size:14px;">
+                <tr><td>Kills as Woolholder: {{ woolholderKills }}</td></tr>
+                <tr><td>Deaths as Woolholder: {{ woolholderDeaths }}</td></tr>
+            </table>
+        </div>
+    </div>
+    
 
     
 
-    <canvas id="radarChart" width="400" height="400"></canvas>
+    
+
+    
     <script>
         var ctx = document.getElementById("radarChart");
         var radarChart = new Chart(ctx, {
