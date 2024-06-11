@@ -1,11 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ displayName1 }} vs. {{ displayName2 }}</h1>
+    <div class="flex-container">
+        <h1>{{ displayName1 }} vs. {{ displayName2 }}</h1>
+    </div>
+
+    <div class="flex-container">
+        <div class="card" style="width:48%;">
+            <div class="card-head">
+                <h3>{{ displayName1 }}</h3>
+            </div>
+            <div class="card-body">
+                <img src="https://crafatar.com/avatars/{{ uuid1 }}?overlay=true" style="width:100px;height:100px;display:inline-block;">
+                <table class="card-table" style="margin-left:10px;">
+                    <tr><td style="height:25px;vertical-align:middle;">{{ xDataDict["gamesPlayed"] }} matches</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ xDataDict["caps"] }} caps</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ xDataDict["kills"] }} kills</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ xDataDict["huntingKills"] }} kills on woolholder</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="card" style="width:48%;">
+            <div class="card-head">
+                <h3>{{ displayName2 }}</h3>
+            </div>
+            <div class="card-body">
+                <img src="https://crafatar.com/avatars/{{ uuid2 }}?overlay=true" style="width:100px;height:100px;display:inline-block;">
+                <table class="card-table" style="margin-left:10px;">
+                    <tr><td style="height:25px;vertical-align:middle;">{{ yDataDict["gamesPlayed"] }} matches</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ yDataDict["caps"] }} caps</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ yDataDict["kills"] }} kills</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ yDataDict["huntingKills"] }} kills on woolholder</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <canvas id="radarChart" width="400" height="400"></canvas>
+    <div class="flex-container">
+        <div class="card">
+            <div class="card-head">
+                <h3 style="text-align:center;">Performance</h3>
+            </div>
+            <canvas id="radarChart" width="600" height="600" style="border-left: 2px solid #202020; border-bottom: 2px solid #202020; border-right: 2px solid #202020;background-color:#282828;padding:10px;"></canvas>
+        </div>
+    </div>
+
+    
     <script>        
         var ctx = document.getElementById("radarChart");
         var radarChart = new Chart(ctx, {
@@ -41,154 +83,171 @@
         });
     </script>
 
-    
-    <p>Performance Stats: </p>
-    <table border="1">
-        <tr>
-            <td> </td>
-            <td>{{ displayName1 }}</td>
-            <td>{{ displayName2 }}</td>
-        </tr>
-        <tr>
-            <td>WLR:</td>
-            <td>{{ xDataDict["winRatio"] }}</td>
-            <td>{{ yDataDict["winRatio"] }}</td>
-        </tr>
-        <tr>
-            <td>Win Rate:</td>
-            <td>{{ xDataDict["winPercent"] }}%</td>
-            <td>{{ yDataDict["winPercent"] }}%</td>
-        </tr>
-        <tr>
-            <td>Cap Success Rate:</td>
-            <td>{{ xDataDict["capSuccessRate"] }}%</td>
-            <td>{{ yDataDict["capSuccessRate"] }}%</td>
-        </tr>
-        <tr>
-            <td>Cap/Death Ratio:</td>
-            <td>{{ xDataDict["capDeathRatio"] }}</td>
-            <td>{{ yDataDict["capDeathRatio"] }}</td>
-        </tr>
-        <tr>
-            <td>KDR:</td>
-            <td>{{ xDataDict["kdr"] }}</td>
-            <td>{{ yDataDict["kdr"] }}</td>
-        </tr>
-        <tr>
-            <td>KDR Against Woolholder:</td>
-            <td>{{ xDataDict["huntingKDR"] }}</td>
-            <td>{{ yDataDict["huntingKDR"] }}</td>
-        </tr>
-        <tr>
-            <td>KDR As Woolholder:</td>
-            <td>{{ xDataDict["woolholderKDR"] }}</td>
-            <td>{{ yDataDict["woolholderKDR"] }}</td>
-        </tr>
-    </table>
 
-    <br>
-    <p>Per-Game Stats: </p>
-    <table border="1">
-        <tr>
-            <td></td>
-            <td>{{ displayName1 }}</td>
-            <td>{{ displayName2 }}</td>
-        </tr>
-        <tr>
-            <td>Average Caps Per Game:</td>
-            <td>{{ xDataDict["capsPerGame"] }}</td>
-            <td>{{ yDataDict["capsPerGame"] }}</td>
-        </tr>
-        <tr>
-            <td>Average Kills Per Game:</td>
-            <td>{{ xDataDict["killsPerGame"] }}</td>
-            <td>{{ yDataDict["killsPerGame"] }}</td>
-        </tr>
-        <tr>
-            <td>Average Kills on Woolholder Per Game: </td>
-            <td>{{ xDataDict["huntingKillsPerGame"] }}</td>
-            <td>{{ yDataDict["huntingKillsPerGame"] }}</td>
-        </tr>
-    </table>
 
-    <br>
-    <p>Raw Stats: </p>
-    <table border="1">
-        <tr>
-            <td></td>
-            <td>{{ displayName1 }}</td>
-            <td>{{ displayName2 }}</td>
-        </tr>
-        <tr>
-            <td>Wins:</td>
-            <td>{{ xDataDict["wins"] }}</td>
-            <td>{{ yDataDict["wins"] }}</td>
-        </tr>
-        <tr>
-            <td>Losses:</td>
-            <td>{{ xDataDict["losses"] }}</td>
-            <td>{{ yDataDict["losses"] }}</td>
-        </tr>
-        <tr>
-            <td>Caps:</td>
-            <td>{{ xDataDict["caps"] }}</td>
-            <td>{{ yDataDict["caps"] }}</td>
-        </tr>
-        <tr>
-            <td>Wools Stolen:</td>
-            <td>{{ xDataDict["woolsStolen"] }}</td>
-            <td>{{ yDataDict["woolsStolen"] }}</td>
-        </tr>
-        <tr>
-            <td>Kills:</td>
-            <td>{{ xDataDict["kills"] }}</td>
-            <td>{{ yDataDict["kills"] }}</td>
-        </tr>
-        <tr>
-            <td>Deaths:</td>
-            <td>{{ xDataDict["deaths"] }}</td>
-            <td>{{ yDataDict["deaths"] }}</td>
-        </tr>
-        <tr>
-            <td>Assists:</td>
-            <td>{{ xDataDict["assists"] }}</td>
-            <td>{{ yDataDict["assists"] }}</td>
-        </tr>
-        <tr>
-            <td>Kills Against Woolholder:</td>
-            <td>{{ xDataDict["huntingKills"] }}</td>
-            <td>{{ yDataDict["huntingKills"] }}</td>
-        </tr>
-        <tr>
-            <td>Deaths to Woolholder:</td>
-            <td>{{ xDataDict["huntingDeaths"] }}</td>
-            <td>{{ yDataDict["huntingDeaths"] }}</td>
-        </tr>
-        <tr>
-            <td>Kills as Woolholder:</td>
-            <td>{{ xDataDict["woolholderKills"] }}</td>
-            <td>{{ yDataDict["woolholderKills"] }}</td>
-        </tr>
-        <tr>
-            <td>Deaths as Woolholder:</td>
-            <td>{{ xDataDict["woolholderDeaths"] }}</td>
-            <td>{{ yDataDict["woolholderDeaths"] }}</td>
-        </tr>
-        <tr>
-            <td>Fastest Cap Time:</td>
-            <td>{{ xDataDict["capPR"] }} seconds</td>
-            <td>{{ yDataDict["capPR"] }} seconds</td>
-        </tr>
-        <tr>
-            <td>Fastest Win Time:</td>
-            <td>{{ xDataDict["winPR"] }} seconds</td>
-            <td>{{ yDataDict["winPR"] }} seconds</td>
-        </tr>
-        <tr>
-            <td>Draws:</td>
-            <td>{{ xDataDict["draws"] }}</td>
-            <td>{{ yDataDict["draws"] }}</td>
-        </tr>
-    </table>
+    <div class="flex-container">
+        <div class="card">
+            <div class="card-head">
+                <h3>Performance Stats</h3>
+            </div>
+            <div class="card-body">
+                <table>
+                    <tr style="border-bottom: 2px solid #202020;">
+                        <td class="padded-td" style="border-right: 2px solid #202020;"> </td>
+                        <td class="padded-td">{{ displayName1 }}</td>
+                        <td class="padded-td">{{ displayName2 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">WLR:</td>
+                        <td class="padded-td">{{ xDataDict["winRatio"] }}</td>
+                        <td class="padded-td">{{ yDataDict["winRatio"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Win Rate:</td>
+                        <td class="padded-td">{{ xDataDict["winPercent"] }}%</td>
+                        <td class="padded-td">{{ yDataDict["winPercent"] }}%</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Cap Success Rate:</td>
+                        <td class="padded-td">{{ xDataDict["capSuccessRate"] }}%</td>
+                        <td class="padded-td">{{ yDataDict["capSuccessRate"] }}%</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Cap/Death Ratio:</td>
+                        <td class="padded-td">{{ xDataDict["capDeathRatio"] }}</td>
+                        <td class="padded-td">{{ yDataDict["capDeathRatio"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">KDR:</td>
+                        <td class="padded-td">{{ xDataDict["kdr"] }}</td>
+                        <td class="padded-td">{{ yDataDict["kdr"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">KDR Against Woolholder:</td>
+                        <td class="padded-td">{{ xDataDict["huntingKDR"] }}</td>
+                        <td class="padded-td">{{ yDataDict["huntingKDR"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">KDR As Woolholder:</td>
+                        <td class="padded-td">{{ xDataDict["woolholderKDR"] }}</td>
+                        <td class="padded-td">{{ yDataDict["woolholderKDR"] }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-head">
+                <h3>Per-Game Stats</h3>
+            </div>
+            <div class="card-body">
+                <table>
+                    <tr style="border-bottom: 2px solid #202020;">
+                        <td class="padded-td" style="border-right: 2px solid #202020;"></td>
+                        <td class="padded-td">{{ displayName1 }}</td>
+                        <td class="padded-td">{{ displayName2 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Average Caps Per Game:</td>
+                        <td class="padded-td">{{ xDataDict["capsPerGame"] }}</td>
+                        <td class="padded-td">{{ yDataDict["capsPerGame"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Average Kills Per Game:</td>
+                        <td class="padded-td">{{ xDataDict["killsPerGame"] }}</td>
+                        <td class="padded-td">{{ yDataDict["killsPerGame"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Average Kills on Woolholder Per Game: </td>
+                        <td class="padded-td">{{ xDataDict["huntingKillsPerGame"] }}</td>
+                        <td class="padded-td">{{ yDataDict["huntingKillsPerGame"] }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-head">
+                <h3>Raw Stats</h3>
+            </div>
+            <div class="card-body">
+                <table>
+                    <tr style="border-bottom: 2px solid #202020;">
+                        <td class="padded-td" style="border-right: 2px solid #202020;"></td>
+                        <td class="padded-td">{{ displayName1 }}</td>
+                        <td class="padded-td">{{ displayName2 }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Wins:</td>
+                        <td class="padded-td">{{ xDataDict["wins"] }}</td>
+                        <td class="padded-td">{{ yDataDict["wins"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Losses:</td>
+                        <td class="padded-td">{{ xDataDict["losses"] }}</td>
+                        <td class="padded-td">{{ yDataDict["losses"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Caps:</td>
+                        <td class="padded-td">{{ xDataDict["caps"] }}</td>
+                        <td class="padded-td">{{ yDataDict["caps"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Wools Stolen:</td>
+                        <td class="padded-td">{{ xDataDict["woolsStolen"] }}</td>
+                        <td class="padded-td">{{ yDataDict["woolsStolen"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Kills:</td>
+                        <td class="padded-td">{{ xDataDict["kills"] }}</td>
+                        <td class="padded-td">{{ yDataDict["kills"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Deaths:</td>
+                        <td class="padded-td">{{ xDataDict["deaths"] }}</td>
+                        <td class="padded-td">{{ yDataDict["deaths"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Assists:</td>
+                        <td class="padded-td">{{ xDataDict["assists"] }}</td>
+                        <td class="padded-td">{{ yDataDict["assists"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Kills Against Woolholder:</td>
+                        <td class="padded-td">{{ xDataDict["huntingKills"] }}</td>
+                        <td class="padded-td">{{ yDataDict["huntingKills"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Deaths to Woolholder:</td>
+                        <td class="padded-td">{{ xDataDict["huntingDeaths"] }}</td>
+                        <td class="padded-td">{{ yDataDict["huntingDeaths"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Kills as Woolholder:</td>
+                        <td class="padded-td">{{ xDataDict["woolholderKills"] }}</td>
+                        <td class="padded-td">{{ yDataDict["woolholderKills"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Deaths as Woolholder:</td>
+                        <td class="padded-td">{{ xDataDict["woolholderDeaths"] }}</td>
+                        <td class="padded-td">{{ yDataDict["woolholderDeaths"] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Fastest Cap Time:</td>
+                        <td class="padded-td">{{ xDataDict["capPR"] }}s</td>
+                        <td class="padded-td">{{ yDataDict["capPR"] }}s</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Fastest Win Time:</td>
+                        <td class="padded-td">{{ xDataDict["winPR"] }}s</td>
+                        <td class="padded-td">{{ yDataDict["winPR"] }}s</td>
+                    </tr>
+                    <tr>
+                        <td class="padded-td" style="border-right: 2px solid #202020;">Draws:</td>
+                        <td class="padded-td">{{ xDataDict["draws"] }}</td>
+                        <td class="padded-td">{{ yDataDict["draws"] }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

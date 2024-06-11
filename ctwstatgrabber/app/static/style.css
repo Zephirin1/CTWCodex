@@ -10,6 +10,11 @@ table {
     border-collapse: collapse;
 }
 
+.padded-td {
+    padding: 5px;
+    border: 2px solid #202020;
+}
+
 h1 {
     color: gray;
 }
@@ -66,20 +71,31 @@ li a:hover {
 }
 
 input[type=text] {
-    width: 60%;
+    width: 100%;
     background-color: dimgray;
-    border: 2px solid #202020;
+    border: 1px solid #202020;
     border-radius: 4px;
+    padding: 10px;
 }
 
 input[type=submit] {
-    background-color: dimgray;
-    border: 2px solid #202020;
-    border-radius: 4px;
+    background-color: #734aa1;
+    color: white;
+    border: 1px solid #202020;
+    padding: 10px 20px;
 }
 
-form {
-    margin: auto;
+input[type=submit]:hover
+{
+    background-color: white;
+    color: #734aa1;
+    animation-name: submitbutton;
+    animation-duration: 350ms;
+}
+
+@keyframes submitbutton {
+    from {background-color: #734aa1; color: white;}
+    to {background-color: white; color: #734aa1;}
 }
 
 .card {
@@ -103,4 +119,9 @@ form {
 .card-table {
     display: inline-block;
     vertical-align: top;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
 }

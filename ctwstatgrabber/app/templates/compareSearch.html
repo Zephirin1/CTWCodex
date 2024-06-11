@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.playerName1.label }}:
-            {{ form.playerName1(size=32) }}
-        </p>
-        <p>
-            {{ form.playerName2.label }}:
-            {{ form.playerName2(size=32) }}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+    
+
+    <div class="flex-container">
+        <h3 style="padding:50px;">Compare Players</h3>
+    </div>
+
+    <div class="flex-container" style="padding: 20px 0px 100px 0px;">
+        <form action="" method="post" style="width:80%;">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.playerName1.label }}:<br>
+                {{ form.playerName1(size=32) }}
+            </p>
+            <p>
+                {{ form.playerName2.label }}:<br>
+                {{ form.playerName2(size=32) }}
+            </p>
+            <div class="flex-container">
+                <p>{{ form.submit() }}</p>
+            </div>
+        </form>
+    </div>
 {% endblock %}

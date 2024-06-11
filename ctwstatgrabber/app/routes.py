@@ -34,6 +34,7 @@ def getAPIKey():
 # return a dictionary of relevant CTW stats from a section of the API response
 def getCTWData(data):
     dataDict = {
+        "gamesPlayed": 0,
         "winrateInt": 0, 
         "winPercent": 0, 
         "winRatio": 0, 
@@ -159,6 +160,8 @@ def getCTWData(data):
             dataDict["hotbarImageList"].append(imageList[inventoryList[i]])
             dataDict["hotbarAltTextList"].append(altTextList[inventoryList[i]])
             i = i + 1
+
+    dataDict["gamesPlayed"] = dataDict["wins"] + dataDict["losses"] + dataDict["draws"]
     
     return dataDict
 
@@ -167,6 +170,9 @@ def getCTWData(data):
 def getCTWDataFromDatabase(name):
     dataDict = {
         "displayName": "",
+        "uuid": "",
+
+        "gamesPlayed": 0,
 
         "winPercent": 0, 
         "winRatio": 0, 
@@ -205,6 +211,7 @@ def getCTWDataFromDatabase(name):
     player = db.session.scalar(sa.select(Player).where(Player.playerName == name.lower()))
 
     dataDict["displayName"] = player.displayName
+    dataDict["uuid"] = player.uuid
 
     dataDict["winPercent"] = player.winPercent
     dataDict["winRatio"] = player.winRatio
@@ -238,6 +245,8 @@ def getCTWDataFromDatabase(name):
 
     dataDict["hotbarImageList"] = [player.hotbarImage1, player.hotbarImage2, player.hotbarImage3, player.hotbarImage4, player.hotbarImage5, player.hotbarImage6, player.hotbarImage7, player.hotbarImage8, player.hotbarImage9]
     dataDict["hotbarAltTextList"] = [player.hotbarAlt1, player.hotbarAlt2, player.hotbarAlt3, player.hotbarAlt4, player.hotbarAlt5, player.hotbarAlt6, player.hotbarAlt7, player.hotbarAlt8, player.hotbarAlt9]
+
+    dataDict["gamesPlayed"] = str(int(dataDict["wins"]) + int(dataDict["losses"]) + int(dataDict["draws"]))
     
     return dataDict
 
@@ -648,7 +657,7 @@ def compare(playerName1, playerName2):
             p1RadarData = makeChartData(xDataDict)
             p2RadarData = makeChartData(yDataDict)
 
-            return render_template('compare.html', title="Compare", displayName1=displayName1, displayName2=displayName2, xDataDict=xDataDict, yDataDict=yDataDict, 
+            return render_template('compare.html', title="Compare", displayName1=displayName1, displayName2=displayName2, uuid1=uuid1, uuid2=uuid2, xDataDict=xDataDict, yDataDict=yDataDict, 
                                    labels=radarLabels, p1Values=p1RadarData, p2Values=p2RadarData, p1Label=displayName1, p2Label=displayName2)
         except:
             
@@ -665,7 +674,7 @@ def compare(playerName1, playerName2):
             p1RadarData = makeChartData(xDataDict)
             p2RadarData = makeChartData(yDataDict)
 
-            return render_template('compare.html', title="Compare", displayName1=xDataDict["displayName"], displayName2=yDataDict["displayName"], xDataDict=xDataDict, yDataDict=yDataDict, 
+            return render_template('compare.html', title="Compare", displayName1=xDataDict["displayName"], uuid1=xDataDict["uuid"], uuid2=yDataDict["uuid"], displayName2=yDataDict["displayName"], xDataDict=xDataDict, yDataDict=yDataDict, 
                                    labels=radarLabels, p1Values=p1RadarData, p2Values=p2RadarData, p1Label=str(xDataDict["displayName"]), p2Label=str(yDataDict["displayName"]))
     except:
         return render_template('retrieveError.html')
