@@ -10,6 +10,7 @@ import sqlalchemy as sa
 from pprint import pprint
 
 
+
 def getInfo(call):
     r = requests.get(call)
     return r.json()
