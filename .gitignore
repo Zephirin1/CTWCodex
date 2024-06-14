@@ -19,7 +19,7 @@ develop-eggs
 .installed.cfg
 lib
 lib64
-__pycache__
+ctwstatgrabber/__pycache__
 
 # Installer logs
 pip-log.txt
@@ -37,6 +37,6 @@ nosetests.xml
 .project
 .pydevproject
 
-venv
+ctwstatgrabber/venv
 app.db
 microblog.log*
