@@ -4,6 +4,8 @@ from app.forms import SearchForm, CompareForm
 from app.models import Player
 import grequests
 import requests
+import os
+from dotenv import find_dotenv, load_dotenv
 import json
 import math
 import sqlalchemy as sa
@@ -28,9 +30,14 @@ def checkDataExists(dataPoint, data):
     else:
         return 0
     
-# returns the API key
+# returns the API key using environment variables
 def getAPIKey():
-    API_KEY = "88148ea8-a2b6-4b7e-9590-7214cf7a8932"
+    dotenv_path = find_dotenv()
+
+    load_dotenv(dotenv_path)
+
+    API_KEY = os.getenv("API_KEY")
+
     return API_KEY
     
 # return a dictionary of relevant CTW stats from a section of the API response

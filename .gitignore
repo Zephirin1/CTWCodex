@@ -21,6 +21,9 @@ lib
 lib64
 __pycache__
 
+#environment variables
+.env
+
 # Installer logs
 pip-log.txt
 
