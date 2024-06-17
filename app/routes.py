@@ -347,6 +347,7 @@ def makeChartData(dataDict):
 
 
 # form page to search for a specific player's data
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     form = SearchForm()
