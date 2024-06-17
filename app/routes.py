@@ -32,7 +32,13 @@ def checkDataExists(dataPoint, data):
     
 # returns the API key using environment variables
 def getAPIKey():
-    return "dd5d86bb-9511-444e-8f2f-474472c5a655"
+    dotenv_path = find_dotenv()
+
+    load_dotenv(dotenv_path)
+
+    API_KEY = os.getenv("API_KEY")
+
+    return API_KEY
     
 # return a dictionary of relevant CTW stats from a section of the API response
 def getCTWData(data):
