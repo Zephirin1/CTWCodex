@@ -345,14 +345,6 @@ def makeChartData(dataDict):
     return [winIndex, capIndex, huntingIndex, killIndex]
 
 
-# default page
-@app.route('', methods=['GET', 'POST'])
-def default():
-    form = SearchForm()
-    if form.validate_on_submit():
-        return redirect(url_for('player', playerName = form.playerName.data))
-    return render_template('playerSearch.html', form=form)
-
 
 # form page to search for a specific player's data
 @app.route('/home', methods=['GET', 'POST'])
