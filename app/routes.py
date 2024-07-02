@@ -61,6 +61,7 @@ def getCTWData(data):
         "deaths": 0, 
         "assists": 0, 
         "killsPerGame": 0, 
+        #test comment
 
         "huntingKDR": 0, 
         "huntingKills": 0, 
