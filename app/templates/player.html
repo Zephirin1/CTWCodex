@@ -15,10 +15,10 @@
             <div class="card-body">
                 <img src="https://crafatar.com/avatars/{{ uuid }}?overlay=true" style="width:100px;height:100px;display:inline-block;">
                 <table class="card-table" style="margin-left:10px;">
-                    <tr><td style="height:25px;vertical-align:middle;">{{ gamesPlayed }} matches</td></tr>
-                    <tr><td style="height:25px;vertical-align:middle;">{{ caps }} caps</td></tr>
-                    <tr><td style="height:25px;vertical-align:middle;">{{ kills }} kills</td></tr>
-                    <tr><td style="height:25px;vertical-align:middle;">{{ huntingKills }} kills on woolholder</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ dataDict["gamesPlayed"] }} matches</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ dataDict["caps"] }} caps</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ dataDict["kills"] }} kills</td></tr>
+                    <tr><td style="height:25px;vertical-align:middle;">{{ dataDict["huntingKills"] }} kills on woolholder</td></tr>
                 </table>
                 
                 
@@ -33,11 +33,11 @@
             </div>
             <div class="card-body">
                 <table class="card-table">
-                    <tr><td>WLR: {{ winRatio }} / {{ winPercent }}% winrate</td></tr>
-                    <tr><td>KDR: {{ kdr }}</td></tr>
-                    <tr><td>Cap Success Rate: {{ capSuccessRate }}% | Cap/Death Ratio: {{ capDeathRatio }}</td></tr>
-                    <tr><td>KDR Against Woolholder: {{ huntingKDR }}</td></tr>
-                    <tr><td>KDR as Woolholder: {{ woolholderKDR }}</td></tr>
+                    <tr><td>WLR: {{ dataDict["winRatio"] }} / {{ dataDict["winPercent"] }}% winrate</td></tr>
+                    <tr><td>KDR: {{ dataDict["kdr"] }}</td></tr>
+                    <tr><td>Cap Success Rate: {{ dataDict["capSuccessRate"] }}% | Cap/Death Ratio: {{ dataDict["capDeathRatio"] }}</td></tr>
+                    <tr><td>KDR Against Woolholder: {{ dataDict["huntingKDR"] }}</td></tr>
+                    <tr><td>KDR as Woolholder: {{ dataDict["woolholderKDR"] }}</td></tr>
                 </table>
             </div>
         </div>
@@ -48,9 +48,9 @@
             </div>
             <div class="card-body">
                 <table class="card-table">
-                    <tr><td>Average Caps Per Game: {{ capsPerGame }}</td></tr>
-                    <tr><td>Average Kills Per Game: {{ killsPerGame }}</td></tr>
-                    <tr><td>Average Kills on Woolholder Per Game: {{ huntingKillsPerGame }}</td></tr>
+                    <tr><td>Average Caps Per Game: {{ dataDict["capsPerGame"] }}</td></tr>
+                    <tr><td>Average Kills Per Game: {{ dataDict["killsPerGame"] }}</td></tr>
+                    <tr><td>Average Kills on Woolholder Per Game: {{ dataDict["huntingKillsPerGame"] }}</td></tr>
                 </table>
             </div>
         </div>
@@ -61,8 +61,8 @@
             </div>
             <div class="card-body">
                 <table class="card-table">
-                    <tr><td>Fastest Cap Time: {{ capPR }}s</td></tr>
-                    <tr><td>Fastest Win Time: {{ winPR }}s</td></tr>
+                    <tr><td>Fastest Cap Time: {{ dataDict["capPR"] }}s</td></tr>
+                    <tr><td>Fastest Win Time: {{ dataDict["winPR"] }}s</td></tr>
                 </table>
             </div>
         </div>
@@ -84,15 +84,15 @@
             <div class="card-body">
                 <table border="1" style="margin:auto;">
                     <tr>
-                        <td><image src="/static/{{ hotbarImageList[0] }}" alt="{{ hotbarAltTextList[0] }}" width="40" height="40"></td>
-                        <td><image src="/static/{{ hotbarImageList[1] }}" alt="{{ hotbarAltTextList[1] }}" width="40" height="40"></td>
-                        <td><image src="/static/{{ hotbarImageList[2] }}" alt="{{ hotbarAltTextList[2] }}" width="40" height="40"></td>
-                        <td><image src="/static/{{ hotbarImageList[3] }}" alt="{{ hotbarAltTextList[3] }}" width="40" height="40"></td>
-                        <td><image src="/static/{{ hotbarImageList[4] }}" alt="{{ hotbarAltTextList[4] }}" width="40" height="40"></td>
-                        <td><image src="/static/{{ hotbarImageList[5] }}" alt="{{ hotbarAltTextList[5] }}" width="40" height="40"></td>
-                        <td><image src="/static/{{ hotbarImageList[6] }}" alt="{{ hotbarAltTextList[6] }}" width="40" height="40"></td>
-                        <td><image src="/static/{{ hotbarImageList[7] }}" alt="{{ hotbarAltTextList[7] }}" width="40" height="40"></td>
-                        <td><image src="/static/{{ hotbarImageList[8] }}" alt="{{ hotbarAltTextList[8] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][0] }}" alt="{{ dataDict['hotbarAltTextList'][0] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][1] }}" alt="{{ dataDict['hotbarAltTextList'][1] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][2] }}" alt="{{ dataDict['hotbarAltTextList'][2] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][3] }}" alt="{{ dataDict['hotbarAltTextList'][3] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][4] }}" alt="{{ dataDict['hotbarAltTextList'][4] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][5] }}" alt="{{ dataDict['hotbarAltTextList'][5] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][6] }}" alt="{{ dataDict['hotbarAltTextList'][6] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][7] }}" alt="{{ dataDict['hotbarAltTextList'][7] }}" width="40" height="40"></td>
+                        <td><image src="/static/{{ dataDict['hotbarImageList'][8] }}" alt="{{ dataDict['hotbarAltTextList'][8] }}" width="40" height="40"></td>
                     </tr>
                 </table>
             </div>
@@ -107,26 +107,26 @@
         </div>
         <div class="card-body">
             <table class="card-table" style="width:19%;padding-left:10px;padding-right:10px;font-size:14px;">
-                <tr><td>Wins: {{ wins }}</td></tr>
-                <tr><td>Losses: {{ losses }}</td></tr>
-                <tr><td>Draws: {{ draws }}</td></tr>
+                <tr><td>Wins: {{ dataDict["wins"] }}</td></tr>
+                <tr><td>Losses: {{ dataDict["losses"] }}</td></tr>
+                <tr><td>Draws: {{ dataDict["draws"] }}</td></tr>
             </table>
             <table class="card-table" style="width:19%;border-left: 2px solid #202020;padding-left:10px;padding-right:10px;font-size:14px;">
-                <tr><td>Kills: {{ kills }}</td></tr>
-                <tr><td>Deaths: {{ deaths }}</td></tr>
-                <tr><td>Assists: {{ assists }}</td></tr>
+                <tr><td>Kills: {{ dataDict["kills"] }}</td></tr>
+                <tr><td>Deaths: {{ dataDict["deaths"] }}</td></tr>
+                <tr><td>Assists: {{ dataDict["assists"] }}</td></tr>
             </table>
             <table class="card-table" style="width:19%;border-left: 2px solid #202020;padding-left:10px;padding-right:10px;font-size:14px;">
-                <tr><td>Caps: {{ caps }}</td></tr>
-                <tr><td>Wools Stolen: {{ woolsStolen }}</td></tr>
+                <tr><td>Caps: {{ dataDict["caps"] }}</td></tr>
+                <tr><td>Wools Stolen: {{ dataDict["woolsStolen"] }}</td></tr>
             </table>
             <table class="card-table" style="width:19%;border-left: 2px solid #202020;padding-left:10px;padding-right:10px;font-size:14px;">
-                <tr><td>Kills on Woolholder: {{ huntingKills }}</td></tr>
-                <tr><td>Deaths to Woolholder: {{ huntingDeaths }}</td></tr>
+                <tr><td>Kills on Woolholder: {{ dataDict["huntingKills"] }}</td></tr>
+                <tr><td>Deaths to Woolholder: {{ dataDict["huntingDeaths"] }}</td></tr>
             </table>
             <table class="card-table" style="width:19%;border-left: 2px solid #202020;padding-left:10px;padding-right:10px;font-size:14px;">
-                <tr><td>Kills as Woolholder: {{ woolholderKills }}</td></tr>
-                <tr><td>Deaths as Woolholder: {{ woolholderDeaths }}</td></tr>
+                <tr><td>Kills as Woolholder: {{ dataDict["woolholderKills"] }}</td></tr>
+                <tr><td>Deaths as Woolholder: {{ dataDict["woolholderDeaths"] }}</td></tr>
             </table>
         </div>
     </div>
