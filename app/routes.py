@@ -42,6 +42,9 @@ def getAPIKey():
     
 # return a dictionary of relevant CTW stats from a section of the API response
 def getCTWData(data):
+
+    statsData = data["stats"]
+
     dataDict = {
         "gamesPlayed": 0,
         "winrateInt": 0, 
@@ -81,70 +84,70 @@ def getCTWData(data):
     }
 
     #win/loss data
-    if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
-        dataDict["winrateInt"] = checkDataExists("woolhunt_participated_wins", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data))
+    if checkDataExists("participated_wins", statsData) + checkDataExists("participated_losses", statsData) != 0:
+        dataDict["winrateInt"] = checkDataExists("participated_wins", statsData) / (checkDataExists("participated_wins", statsData) + checkDataExists("participated_losses", statsData))
     dataDict["winPercent"] = round(dataDict["winrateInt"] * 100, 2)
-    if checkDataExists("woolhunt_participated_losses", data) != 0:
-        dataDict["winRatio"] = round(checkDataExists("woolhunt_participated_wins", data) / checkDataExists("woolhunt_participated_losses", data), 2)
+    if checkDataExists("participated_losses", statsData) != 0:
+        dataDict["winRatio"] = round(checkDataExists("participated_wins", statsData) / checkDataExists("participated_losses", statsData), 2)
     else:
-        dataDict["winRatio"] = checkDataExists("woolhunt_participated_wins", data)
-    dataDict["wins"] = checkDataExists("woolhunt_participated_wins", data)
-    dataDict["losses"] = checkDataExists("woolhunt_participated_losses", data)
+        dataDict["winRatio"] = checkDataExists("participated_wins", statsData)
+    dataDict["wins"] = checkDataExists("participated_wins", statsData)
+    dataDict["losses"] = checkDataExists("participated_losses", statsData)
 
     #cap data
-    dataDict["caps"] = checkDataExists("woolhunt_wools_captured", data)
-    if checkDataExists("woolhunt_deaths", data) != 0:
-        dataDict["capDeathRatio"] = round(checkDataExists("woolhunt_wools_captured", data) / checkDataExists("woolhunt_deaths", data), 2)
+    dataDict["caps"] = checkDataExists("wools_captured", statsData)
+    if checkDataExists("deaths", statsData) != 0:
+        dataDict["capDeathRatio"] = round(checkDataExists("wools_captured", statsData) / checkDataExists("deaths", statsData), 2)
     else:
-        dataDict["capDeathRatio"] = checkDataExists("woolhunt_wools_captured", data)
-    dataDict["woolsStolen"] = checkDataExists("woolhunt_wools_stolen", data)
-    if checkDataExists("woolhunt_wools_stolen", data) != 0:
-        dataDict["capSuccessRate"] = round((checkDataExists("woolhunt_wools_captured", data) / checkDataExists("woolhunt_wools_stolen", data)) * 100, 2)
-    if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
-        dataDict["capsPerGame"] = round(checkDataExists("woolhunt_wools_captured", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data)), 2)
+        dataDict["capDeathRatio"] = checkDataExists("wools_captured", statsData)
+    dataDict["woolsStolen"] = checkDataExists("wools_stolen", statsData)
+    if checkDataExists("wools_stolen", statsData) != 0:
+        dataDict["capSuccessRate"] = round((checkDataExists("wools_captured", statsData) / checkDataExists("wools_stolen", statsData)) * 100, 2)
+    if checkDataExists("participated_wins", statsData) + checkDataExists("participated_losses", statsData) != 0:
+        dataDict["capsPerGame"] = round(checkDataExists("wools_captured", statsData) / (checkDataExists("participated_wins", statsData) + checkDataExists("participated_losses", statsData)), 2)
     else:
-        dataDict["capsPerGame"] = checkDataExists("woolhunt_wools_captured", data)
+        dataDict["capsPerGame"] = checkDataExists("wools_captured", statsData)
 
     #general kill/death data
-    if checkDataExists("woolhunt_deaths", data) != 0:
-        dataDict["kdr"] = round(checkDataExists("woolhunt_kills", data) / checkDataExists("woolhunt_deaths", data), 2)
+    if checkDataExists("deaths", statsData) != 0:
+        dataDict["kdr"] = round(checkDataExists("kills", statsData) / checkDataExists("deaths", statsData), 2)
     else:
-        dataDict["kdr"] = checkDataExists("woolhunt_kills", data)
-    dataDict["kills"] = checkDataExists("woolhunt_kills", data)
-    dataDict["deaths"] = checkDataExists("woolhunt_deaths", data)
-    dataDict["assists"] = checkDataExists("woolhunt_assists", data)
-    if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
-        dataDict["killsPerGame"] = round(checkDataExists("woolhunt_kills", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data)), 2)
+        dataDict["kdr"] = checkDataExists("kills", statsData)
+    dataDict["kills"] = checkDataExists("kills", statsData)
+    dataDict["deaths"] = checkDataExists("deaths", statsData)
+    dataDict["assists"] = checkDataExists("assists", statsData)
+    if checkDataExists("participated_wins", statsData) + checkDataExists("participated_losses", statsData) != 0:
+        dataDict["killsPerGame"] = round(checkDataExists("kills", statsData) / (checkDataExists("participated_wins", statsData) + checkDataExists("participated_losses", statsData)), 2)
     else:
-        dataDict["killsPerGame"] = checkDataExists("woolhunt_kills", data)
+        dataDict["killsPerGame"] = checkDataExists("kills", statsData)
 
     #kill/death data against woolholder
-    if checkDataExists("woolhunt_deaths_to_woolholder", data) != 0:
-        dataDict["huntingKDR"] = round(checkDataExists("woolhunt_kills_on_woolholder", data) / checkDataExists("woolhunt_deaths_to_woolholder", data), 2)
+    if checkDataExists("deaths_to_woolholder", statsData) != 0:
+        dataDict["huntingKDR"] = round(checkDataExists("kills_on_woolholder", statsData) / checkDataExists("deaths_to_woolholder", statsData), 2)
     else:
-        dataDict["huntingKDR"] = checkDataExists("woolhunt_kills_on_woolholder", data)
-    dataDict["huntingKills"] = checkDataExists("woolhunt_kills_on_woolholder", data)
-    dataDict["huntingDeaths"] = checkDataExists("woolhunt_deaths_to_woolholder", data)
-    if checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data) != 0:
-        dataDict["huntingKillsPerGame"] = round(checkDataExists("woolhunt_kills_on_woolholder", data) / (checkDataExists("woolhunt_participated_wins", data) + checkDataExists("woolhunt_participated_losses", data)), 2)
+        dataDict["huntingKDR"] = checkDataExists("kills_on_woolholder", statsData)
+    dataDict["huntingKills"] = checkDataExists("kills_on_woolholder", statsData)
+    dataDict["huntingDeaths"] = checkDataExists("deaths_to_woolholder", statsData)
+    if checkDataExists("participated_wins", statsData) + checkDataExists("participated_losses", statsData) != 0:
+        dataDict["huntingKillsPerGame"] = round(checkDataExists("kills_on_woolholder", statsData) / (checkDataExists("participated_wins", statsData) + checkDataExists("participated_losses", statsData)), 2)
     else:
-        dataDict["huntingKillsPerGame"] = checkDataExists("woolhunt_kills_on_woolholder", data)
+        dataDict["huntingKillsPerGame"] = checkDataExists("kills_on_woolholder", statsData)
 
     #kill/death data as woolholder
-    if checkDataExists("woolhunt_deaths_with_wool", data) != 0:
-        dataDict["woolholderKDR"] = round(checkDataExists("woolhunt_kills_with_wool", data) / checkDataExists("woolhunt_deaths_with_wool", data), 2)
+    if checkDataExists("deaths_with_wool", statsData) != 0:
+        dataDict["woolholderKDR"] = round(checkDataExists("kills_with_wool", statsData) / checkDataExists("deaths_with_wool", statsData), 2)
     else:
-        dataDict["woolholderKDR"] = checkDataExists("woolhunt_kills_with_wool", data)
-    dataDict["woolholderKills"] = checkDataExists("woolhunt_kills_with_wool", data)
-    dataDict["woolholderDeaths"] = checkDataExists("woolhunt_deaths_with_wool", data)
+        dataDict["woolholderKDR"] = checkDataExists("kills_with_wool", statsData)
+    dataDict["woolholderKills"] = checkDataExists("kills_with_wool", statsData)
+    dataDict["woolholderDeaths"] = checkDataExists("deaths_with_wool", statsData)
 
     #miscellaneous data
-    dataDict["capPR"] = checkDataExists("woolhunt_fastest_wool_capture", data)
-    dataDict["draws"] = checkDataExists("woolhunt_participated_draws", data)
-    dataDict["winPR"] = checkDataExists("woolhunt_fastest_win", data)
+    dataDict["capPR"] = checkDataExists("fastest_wool_capture", statsData)
+    dataDict["draws"] = checkDataExists("participated_draws", statsData)
+    dataDict["winPR"] = checkDataExists("fastest_win", statsData)
 
     #inventory layout data
-    layoutData = checkDataExists("woolhunt_inventorylayout", data)
+    layoutData = checkDataExists("layout", data)
     if layoutData != 0:
         layoutDataKeys = list(layoutData.keys())
         layoutDataValues = list(layoutData.values())
@@ -378,7 +381,7 @@ def player(playerName):
 
             uuid = str(x["player"]["uuid"]) 
             displayName = str(x["player"]["displayname"])
-            data = x["player"]["stats"]["Arcade"]
+            data = x["player"]["stats"]["WoolGames"]["capture_the_wool"]
 
             # get CTW data in dictionary form
             dataDict = getCTWData(data)
@@ -424,11 +427,11 @@ def compare(playerName1, playerName2):
 
             uuid1 = str(x["player"]["uuid"])
             displayName1 = str(x["player"]["displayname"])
-            xData = x["player"]["stats"]["Arcade"]
+            xData = x["player"]["stats"]["WoolGames"]["capture_the_wool"]
             
             uuid2 = str(y["player"]["uuid"])
             displayName2 = str(y["player"]["displayname"])
-            yData = y["player"]["stats"]["Arcade"]
+            yData = y["player"]["stats"]["WoolGames"]["capture_the_wool"]
 
             # CTW data for both players in dictionary form
             xDataDict = getCTWData(xData)
